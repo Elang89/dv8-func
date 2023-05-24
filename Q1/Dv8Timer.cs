@@ -1,6 +1,8 @@
 using System;
+using System.Globalization;
 using System.Reflection;
 using System.Text;
+using CsvHelper;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
 
@@ -19,29 +21,37 @@ namespace Dv8TimedFunc
         public void Run([TimerTrigger("*/15 * * * * *")] MyInfo myTimer)
         {
             _logger.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
-            // _logger.LogInformation($"Next timer schedule at: {myTimer.ScheduleStatus.Next}");
 
-            OpenFile();
+            AggregateRecords();
         }
 
-        private void OpenFile()
+        private void AggregateRecords()
         {
             string currentPath = AppDomain.CurrentDomain.BaseDirectory;
-            string filename = "../../../rawData.txt";
+            string filename = "../../rawData.txt";
             string path = Path.Combine(currentPath, filename);
-            List<WellMovement> movements = new List<WellMovement>();
 
-            using FileStream fs = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.None);
-            using StreamReader sr = new StreamReader(fs);
+            const double kPaConstant = 6.89476;
 
-            string? line;
-            string? header = sr.ReadLine();
+            string[] lines = System.IO.File.ReadAllLines(filename);
 
-            while ((line = sr.ReadLine()) != null)
-            {
-                WellMovement movement = ParseLine(line);
-                movements.Append(movement);
-            }
+            List<WellMovement> movements = File.ReadAllLines(filename)
+                .Skip(1)
+                .ToArray()
+                .Select(m => ParseLine(m))
+                .Where(m => (m.CHP > 0 && m.CHP < 10000) && (m.WHP > 0 && m.WHP < 10000))
+                .GroupBy(m => new { m.WellId })
+                .Select(m => new WellMovement
+                {
+                    WellId = m.Key.WellId,
+                    DateTimeStamp = DateTimeOffset.UtcNow,
+                    CHP = (m.Average(p => (p.CHP * kPaConstant))),
+                    WHP = (m.Average(p => (p.WHP * kPaConstant)))
+                })
+                .OrderBy(m => m.WellId)
+                .ToList();
+
+            WriteNewFile(movements);
 
         }
 
@@ -53,18 +63,23 @@ namespace Dv8TimedFunc
             {
                 WellId = data[0].ToString(),
                 DateTimeStamp = DateTimeOffset.Parse(data[1].ToString()),
-                WHP = double.Parse(data[2].ToString()),
+                WHP = double.Parse(data[2]),
                 CHP = double.Parse(data[3])
             };
 
             return movement;
         }
 
-        private void filterAndAggregate(List<WellMovement> movements)
+
+        private void WriteNewFile(List<WellMovement> movements)
         {
-            List<AggregatedWellMovement> aggregated = new List<AggregatedWellMovement>();
-            var filtered = movements
-                .Where(m => (m.CHP > 0 && m.CHP < 10000) && (m.WHP > 0 && m.WHP < 10000));
+            string currentDate = DateTimeOffset.Now.ToString("yyyyMMddHHmm");
+            string currentPath = AppDomain.CurrentDomain.BaseDirectory;
+            string filename = Path.Combine(currentPath, String.Format("../../data/result-{0}.csv", currentDate));
+            using StreamWriter writer = new StreamWriter(filename);
+            using CsvWriter csvWriter = new CsvWriter(writer, CultureInfo.InvariantCulture);
+
+            csvWriter.WriteRecords(movements);
         }
     }
 

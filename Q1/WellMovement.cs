@@ -8,11 +8,4 @@ namespace Dv8TimedFunc
         public double CHP { get; set; }
     }
 
-    public class AggregatedWellMovement
-    {
-        public string? WellId { get; }
-        public DateTimeOffset? DateAdded { get; }
-        public double Aggregate;
-
-    }
 }

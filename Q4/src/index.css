@@ -1,0 +1,66 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+ 
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+table {
+	border-collapse: collapse;
+  	width: 100%;
+}
+table th, table td {
+	border: 1px solid #2B3D42;
+	padding: 8px;
+}
+table tbody tr {
+cursor: pointer;
+}
+
+table tr:nth-child(even){background-color: #DBE1E6;}
+
+table tr:hover {background-color: #B7C3CD;}
+
+table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #2B3D42;
+  color: #F3F5F7;
+}
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #74a2d2;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button.back {
+	background-color: #dda796;
+}
+button.delete {
+	background-color: #bf616a;
+	color: #F3F5F7;
+}
+button:hover {
+  border-color: #35639b;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+

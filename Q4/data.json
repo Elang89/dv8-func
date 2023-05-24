@@ -1,0 +1,85 @@
+[
+	{
+		"id": 1,
+		"area": "Area 1",
+		"field": "Field 1",
+		"UWI": "A1F1-1",
+		"rodStringData": [
+			{
+				"id": "A1F1-1:t1",
+				"type": "Polished Rod",
+				"length": 50,
+				"diameter": 1.25
+			},
+			{
+				"id": "A1F1-1:t2",
+				"type": "Steel",
+				"length": 2300,
+				"diameter": 1
+			},
+			{
+				"id": "A1F1-1:t3",
+				"type": "Steel",
+				"length": 25,
+				"diameter": 0.75
+			}
+
+		]
+	},
+	{
+		"id": 2,
+		"area": "Area 2",
+		"field": "Field 1",
+		"UWI": "A2F1-2",
+		"rodStringData": [
+			{
+				"id": "A2F1-2:t1",
+				"type": "Polished Rod",
+				"length": 50,
+				"diameter": 1
+			},
+			{
+				"id": "A2F1-2:t2",
+				"type": "Fiberglass",
+				"length": 1020,
+				"diameter": 1
+			},
+			{
+				"id": "A2F1-2:t3",
+				"type": "Fiberglass",
+				"length": 30,
+				"diameter": 0.75
+			}
+
+		]
+	},
+	{
+		"id": 3,
+		"area": "Area 1",
+		"field": "Field 2",
+		"UWI": "A1F2-3",
+		"rodStringData": [
+			{
+				"id": "A1F2-3:t1",
+				"type": "Polished Rod",
+				"length": 50,
+				"diameter": 1.25
+			},
+			{
+				"id": "A1F3-3:t2",
+				"type": "Steel",
+				"length": 2000,
+				"diameter": 1
+			},
+			{
+				"id": "A1F2-3:t3",
+				"type": "Steel",
+				"length": 5,
+				"diameter": 0.75
+			}
+
+		]
+	}
+
+
+]
