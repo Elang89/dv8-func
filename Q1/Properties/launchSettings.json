@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "Dv8TimedFunc": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7099",
+      "launchBrowser": false
+    }
+  }
+}
