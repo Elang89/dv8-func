@@ -1,7 +1,4 @@
-using System;
 using System.Globalization;
-using System.Reflection;
-using System.Text;
 using CsvHelper;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
@@ -18,7 +15,7 @@ namespace Dv8TimedFunc
         }
 
         [Function("Dv8Timer")]
-        public void Run([TimerTrigger("*/15 * * * * *")] MyInfo myTimer)
+        public void Run([TimerTrigger("0 0 * * * *")] MyInfo myTimer)
         {
             _logger.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
 
