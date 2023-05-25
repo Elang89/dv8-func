@@ -1,10 +1,12 @@
 import { nanoid } from "nanoid";
 import { useRef } from 'react';
-export default function Edit(props){
+export default function Edit(props) {
 	const rodStringDataExists = props.well?.rodStringData.length > 0;
 	const typeRef = useRef(null);
 	const diameterRef = useRef(null);
 	const lengthRef = useRef(null);
+
+	console.log(props);
 
 
 	return (
@@ -20,7 +22,7 @@ export default function Edit(props){
 					</tr>
 				</thead>
 				<tbody>
-					{props.well?.rodStringData.map((taper,index) => {
+					{props.well?.rodStringData.map((taper, index) => {
 						return (
 							<tr>
 								<td>{taper.type}</td>
@@ -28,7 +30,8 @@ export default function Edit(props){
 								<td>{taper.diameter}</td>
 								<td><button className='delete' onClick={props.delete}>X</button></td>
 							</tr>
-						)}
+						)
+					}
 					)}
 				</tbody>
 			</table>
@@ -41,7 +44,7 @@ export default function Edit(props){
 					</select>
 					<input id='length' type='number' placeholder="Length" />
 					<input id='diameter' type='number' placeholder="Diameter" />
-					<button type='button'onClick={() => {						
+					<button type='button' onClick={() => {
 						const type = document.getElementById('type');
 						const diameter = document.getElementById('diameter');
 						const length = document.getElementById('length');
@@ -57,8 +60,8 @@ export default function Edit(props){
 					}}>Add</button>
 				</div>
 			</form>
-			<div style={{display:'flex', flexWrap: 'wrap'}}>
-				<button className='back'onClick={props.goBack}>Back</button>	
+			<div style={{ display: 'flex', flexWrap: 'wrap' }}>
+				<button className='back' onClick={props.goBack}>Back</button>
 			</div>
 		</div>
 	);

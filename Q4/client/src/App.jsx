@@ -1,11 +1,11 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import RodStringEditor from './components/RodStringEditor';
 import './App.css'
 import Wells from './components/Wells';
 
-function App() {	
+function App() {
 	const [wellId, setWellId] = useState(undefined);
-  	const [data, setData] = useState([]);
+	const [data, setData] = useState([]);
 	useEffect(() => {
 		fetch('data.json', {
 			method: 'get',
@@ -14,7 +14,7 @@ function App() {
 				'Accept': 'application/json'
 			}
 		}).then(response => {
-			if (!response.ok){
+			if (!response.ok) {
 				throw new Error("HTTP Error: " + response.status);
 			}
 			return response.json();
@@ -29,20 +29,21 @@ function App() {
 			<div className="centered">
 				<div className='center'>
 					<div hidden={wellId !== undefined}>
-						<Wells data={data} setWellId={setWellId}/>
+						<Wells data={data} setWellId={setWellId} />
 					</div>
-				  <div hidden={wellId === undefined}>
-					<RodStringEditor goBack={() => setWellId(undefined)} well={selectedWell} 
-						add={(taper) => {
-							prevData = data;
-							prevData.find(w => w.id === wellId).rodStringData.add(taper);
-							setData(prevData);
-						}}
-						delete={() => {
-							alert("Delete needs to be implemented still");
-						}}
-					/>
-				  </div>
+					<div hidden={wellId === undefined}>
+						<RodStringEditor goBack={() => setWellId(undefined)} well={selectedWell}
+							add={(taper) => {
+								const prevData = data;
+
+								prevData.find(w => w.id === wellId).rodStringData.push(taper);
+								setData(prevData);
+							}}
+							delete={() => {
+								alert("Delete needs to be implemented still");
+							}}
+						/>
+					</div>
 				</div>
 			</div>
 		</div>
