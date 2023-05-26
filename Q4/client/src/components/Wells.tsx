@@ -1,6 +1,11 @@
-import React from 'react'
+import { IWell } from '../interfaces';
 
-export default function Table(props) {
+interface WellProps {
+	wells: IWell[]
+	setWellId: (wellId: string) => void
+}
+
+function Table(props: WellProps) {
 
 	return (
 		<div className='stack'>
@@ -14,7 +19,7 @@ export default function Table(props) {
 					</tr>
 				</thead>
 				<tbody>
-					{props.data.map(well => (
+					{props.wells.map(well => (
 						<tr key={well.id} onClick={() => props.setWellId(well.id)}>
 							<td>{well.area}</td>
 							<td>{well.field}</td>
@@ -26,3 +31,5 @@ export default function Table(props) {
 		</div>
 	);
 }
+
+export default Table;
