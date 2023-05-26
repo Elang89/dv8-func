@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "Dv8TimedFunc": {
+    "Dv8Timed.Func": {
       "commandName": "Project",
       "commandLineArgs": "--port 7099",
       "launchBrowser": false

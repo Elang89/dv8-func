@@ -4,14 +4,14 @@ import { ITaper, IWell } from "../interfaces";
 
 interface EditProps {
 	goBack: () => void,
-	well: IWell,
+	well: IWell | undefined,
 	add: (taper: ITaper) => void,
 	delete: (e: SyntheticEvent) => void,
 
 }
 
 function Edit(props: EditProps) {
-	const rodStringDataExists = props.well?.rodStringData.length > 0;
+	const rodStringDataExists = props.well ? props.well?.rodStringData.length > 0 : false;
 	const typeRef = useRef(null);
 	const diameterRef = useRef(null);
 	const lengthRef = useRef(null);

@@ -3,7 +3,7 @@ using CsvHelper;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
 
-namespace Dv8TimedFunc
+namespace Dv8Timed.Func
 {
     public class Dv8Timer
     {
@@ -15,24 +15,35 @@ namespace Dv8TimedFunc
         }
 
         [Function("Dv8Timer")]
-        public void Run([TimerTrigger("0 0 * * * *")] MyInfo myTimer)
+        public void Run([TimerTrigger("*/15 * * * *")] MyInfo myTimer)
         {
             _logger.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
 
-            AggregateRecords();
-        }
+            string input = "../../rawData.txt";
 
-        private void AggregateRecords()
+            string currentDate = DateTimeOffset.Now.ToString("yyyyMMddHHmm");
+            string currentPath = AppDomain.CurrentDomain.BaseDirectory;
+            string output = Path.Combine(currentPath, String.Format("../../../data/result-{0}.csv", currentDate));
+
+            Dv8FileWriter fileWriter = new Dv8FileWriter();
+            fileWriter.AggregateRecords(input, output);
+        }
+    }
+
+    public class Dv8FileWriter
+    {
+
+        public void AggregateRecords(string input, string output)
         {
             string currentPath = AppDomain.CurrentDomain.BaseDirectory;
-            string filename = "../../rawData.txt";
-            string path = Path.Combine(currentPath, filename);
+
+            string path = Path.Combine(currentPath, input);
 
             const double kPaConstant = 6.89476;
 
-            string[] lines = System.IO.File.ReadAllLines(filename);
+            string[] lines = System.IO.File.ReadAllLines(input);
 
-            List<WellMovement> movements = File.ReadAllLines(filename)
+            List<WellMovement> movements = File.ReadAllLines(input)
                 .Skip(1)
                 .ToArray()
                 .Select(m => ParseLine(m))
@@ -48,11 +59,11 @@ namespace Dv8TimedFunc
                 .OrderBy(m => m.WellId)
                 .ToList();
 
-            WriteNewFile(movements);
+            WriteNewFile(movements, output);
 
         }
 
-        private WellMovement ParseLine(string line)
+        public WellMovement ParseLine(string line)
         {
             string[] data = line.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 
@@ -68,17 +79,16 @@ namespace Dv8TimedFunc
         }
 
 
-        private void WriteNewFile(List<WellMovement> movements)
+        public void WriteNewFile(List<WellMovement> movements, string filepath)
         {
-            string currentDate = DateTimeOffset.Now.ToString("yyyyMMddHHmm");
-            string currentPath = AppDomain.CurrentDomain.BaseDirectory;
-            string filename = Path.Combine(currentPath, String.Format("../../data/result-{0}.csv", currentDate));
-            using StreamWriter writer = new StreamWriter(filename);
+
+            using StreamWriter writer = new StreamWriter(filepath);
             using CsvWriter csvWriter = new CsvWriter(writer, CultureInfo.InvariantCulture);
 
             csvWriter.WriteRecords(movements);
         }
     }
+
 
 
     public class MyInfo

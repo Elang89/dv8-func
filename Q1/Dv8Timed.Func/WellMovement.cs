@@ -1,4 +1,4 @@
-namespace Dv8TimedFunc
+namespace Dv8Timed.Func
 {
     public class WellMovement
     {

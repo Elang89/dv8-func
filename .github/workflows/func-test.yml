@@ -1,0 +1,26 @@
+name: dotnet package
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dotnet-version: [ 7.0.203 ]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+      - name: Install dependencies
+        run: dotnet restore server/Example.Api
+      - name: Install dependencies (Test)
+        run: dotnet restore Q1/Dv8Timed.Tests
+      - name: Build
+        run: dotnet build --configuration Release --no-restore Q1/Dv8Timed.Func
+      - name: Test
+        run: dotnet test --no-restore --verbosity normal Q1/Dv8Timed.Tests

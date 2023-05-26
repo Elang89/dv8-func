@@ -8,6 +8,7 @@ import { IWell, ITaper } from './interfaces';
 function App() {
 	const [wellId, setWellId] = useState("");
 	const [data, setData] = useState<IWell[]>([]);
+
 	useEffect(() => {
 		const url = 'data.json';
 		const method = 'get';
@@ -39,27 +40,29 @@ function App() {
 		const index = (e.target as HTMLElement).closest("tr")?.getAttribute("data-index");
 		const item = data.find((w: IWell) => w.id === wellId);
 
-		if (item) {
-			item.rodStringData.splice(index, 1);
+		if (item && index) {
+			const val = +index;
+
+			item.rodStringData.splice(val, 1);
 			setData([...data]);
 		}
+	}
 
-		return (
-			<div className='cover'>
-				<h1>Rod String Editor</h1>
-				<div className="centered">
-					<div className='center'>
-						<div hidden={wellId !== ""}>
-							<Wells wells={data} setWellId={setWellId} />
-						</div>
-						<div hidden={wellId === ""}>
-							<RodStringEditor goBack={goBack} well={selectedWell} add={addRow} delete={deleteRow} />
-						</div>
+	return (
+		<div className='cover'>
+			<h1>Rod String Editor</h1>
+			<div className="centered">
+				<div className='center'>
+					<div hidden={wellId !== ""}>
+						<Wells wells={data} setWellId={setWellId} />
+					</div>
+					<div hidden={wellId === ""}>
+						<RodStringEditor goBack={goBack} well={selectedWell} add={addRow} delete={deleteRow} />
 					</div>
 				</div>
 			</div>
-		)
-	}
+		</div>
+	)
 }
 
 export default App
