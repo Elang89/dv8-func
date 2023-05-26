@@ -15,7 +15,7 @@ namespace Dv8Timed.Func
         }
 
         [Function("Dv8Timer")]
-        public void Run([TimerTrigger("0 0 * * * *")] MyInfo myTimer)
+        public void Run([TimerTrigger("0 0 0-23 * * *")] MyInfo myTimer)
         {
             _logger.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
 
