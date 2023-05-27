@@ -18,6 +18,18 @@ To run Q1 locally do the following:
     mcr.microsoft.com/azure-storage/azurite`
 4. Run `func start`
 
+Additionally some tests were added to this function, if you check the github actions tab on the repository,
+they will show the results of some jobs created to run these tests. There is also a data folder at the root of Q1 which shows the results of the azure function. 
+
 ### Q4
 
 To run Q4 locally do the following: 
+
+1. Run `cd Q4/client`
+2. Run `npm run dev`
+
+Besides the fixes that were asked for the following other improvements were made: 
+
+1. Functions were refactored and changed from anonymous arrow functions to defined functions. 
+2. Typescript was added and the project was updated to use it. 
+3. Prop definitions were created with typescript's interfaces. 
