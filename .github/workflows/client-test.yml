@@ -25,4 +25,4 @@ jobs:
         run: |
           npm ci --prefix Q4/client/
           npm run --prefix Q4/client/ build --if-present
-          npm test --prefix Q4/client/ -- --watchAll=false
+          npm test --prefix Q4/client/ 
