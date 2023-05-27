@@ -10,7 +10,7 @@ function App() {
 	const [data, setData] = useState<IWell[]>([]);
 
 	useEffect(() => {
-		const url = 'data.json';
+		const url = import.meta.env.VITE_BASE_URL
 		const method = 'get';
 		const headers = {
 			'Content-Type': 'application/json',

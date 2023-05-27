@@ -46,7 +46,7 @@ function Edit(props: EditProps) {
 				<tbody>
 					{props.well?.rodStringData.map((taper: ITaper, index: number) => {
 						return (
-							<tr key={index} data-index={index}>
+							<tr key={taper.id} data-index={index} data-id={taper.id}>
 								<td>{taper.type}</td>
 								<td>{taper.length}</td>
 								<td>{taper.diameter}</td>

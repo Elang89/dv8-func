@@ -19,8 +19,8 @@ function Table(props: WellProps) {
 					</tr>
 				</thead>
 				<tbody>
-					{props.wells.map(well => (
-						<tr key={well.id} onClick={() => props.setWellId(well.id)}>
+					{props.wells.map((well, index) => (
+						<tr data-id={well.id} data-index={index} key={well.id} onClick={() => props.setWellId(well.id)}>
 							<td>{well.area}</td>
 							<td>{well.field}</td>
 							<td>{well.UWI}</td>
